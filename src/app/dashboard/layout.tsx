@@ -1,17 +1,13 @@
-import './globals.css'
 import { Inter } from 'next/font/google'
 import { createClient } from '@/utils/supabase/server'
 import { SessionProvider } from '@/components/SessionProvider'
+import { Header } from '@/components/Header'
+import '@/app/globals.css'
 import { CustomToaster } from '@/components/CustomToaster'
-
-export const metadata = {
-  title: '🍽️ Мой Ресторан',
-  description: 'Управление меню ресторана',
-}
 
 const inter = Inter({ subsets: ['latin'] })
 
-export default async function RootLayout({
+export default async function DashboardLayout({
   children,
 }: {
   children: React.ReactNode
@@ -23,12 +19,14 @@ export default async function RootLayout({
 
   return (
     <html lang="ru" className="scrollbar-hide">
-      <body className={`${inter.className} bg-gray-950 text-white overflow-y-scroll`}>
-        <SessionProvider session={session}>
+          <body className={`${inter.className} bg-gray-950 text-white overflow-y-scroll`}>
+          <Header session={session} />
           <CustomToaster />
-          <div className="min-h-screen flex flex-col">{children}</div>
-        </SessionProvider>
-      </body>
-    </html>
+            <SessionProvider session={session}>
+              <CustomToaster />
+              <div className="min-h-screen flex flex-col">{children}</div>
+            </SessionProvider>
+          </body>
+        </html>
   )
 }
