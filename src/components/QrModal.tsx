@@ -1,12 +1,24 @@
 'use client'
 
-import { useState, useRef } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { QRCodeCanvas } from 'qrcode.react'
 
 export default function PublicRestaurantQR({ restaurantId }: { restaurantId: string }) {
   const [isOpen, setIsOpen] = useState(false)
+  const [baseUrl, setBaseUrl] = useState<string | null>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const publicUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/public/${restaurantId}`
+
+  useEffect(() => {
+    const fetchBaseUrl = async () => {
+      const res = await fetch('/api/url')
+      const data = await res.json()
+      setBaseUrl(data.baseUrl)
+    }
+
+    fetchBaseUrl()
+  }, [])
+
+  const publicUrl = `${baseUrl}/public/${restaurantId}`
 
   const downloadPng = () => {
     const canvas = canvasRef.current

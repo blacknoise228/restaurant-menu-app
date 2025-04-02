@@ -3,12 +3,15 @@ import { Inter } from 'next/font/google'
 import { createClient } from '@/utils/supabase/server'
 import { SessionProvider } from '@/components/SessionProvider'
 import { CustomToaster } from '@/components/CustomToaster'
-import DonateForm from '@/components/DonateFormModal'
 import ClientFooter from '@/components/ClientFooter'
+import icon from '@/../public/app-ico.png'
 
 export const metadata = {
-  title: '🍽️ Мой Ресторан',
+  title: 'PlatoQR',
   description: 'Управление меню ресторана',
+  icons: {
+    icon: icon.blurDataURL,
+  }
 }
 
 const inter = Inter({ subsets: ['latin'] })

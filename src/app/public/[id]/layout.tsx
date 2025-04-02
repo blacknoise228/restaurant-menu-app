@@ -6,7 +6,7 @@ import Image from 'next/image'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
-  title: 'Публичное меню',
+  title: 'PlatoQR Меню ресторана',
 }
 
 export default async function PublicLayout({

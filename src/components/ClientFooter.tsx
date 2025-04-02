@@ -11,7 +11,7 @@ export default function ClientFooter() {
     <>
       <footer className="mt-auto text-center text-gray-500 text-sm py-6 border-t border-gray-800">
         <div className="max-w-7xl mx-auto px-4 space-y-2">
-          <p>© 2025 Твоё Меню — Сделано с ❤️</p>
+          <p>© 2025 PlatoQR — Сделано с ❤️</p>
           <div className="space-x-4">
             <button onClick={() => setIsDonationOpen(true)} className="hover:text-teal-400">
               Поддержать 💸

@@ -20,7 +20,7 @@ export function Header({ session }: { session: Session | null }) {
         {/* Логотип + Название */}
         <Link href="/" className="flex items-center gap-3">
           <span className="text-3xl font-black text-teal-400 hover:text-teal-300 transition duration-200 drop-shadow-sm">
-            🍽️ Твоё Меню
+            🍽️ Plato QR
           </span>
         </Link>
 
