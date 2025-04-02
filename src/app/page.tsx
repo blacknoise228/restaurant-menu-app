@@ -22,7 +22,27 @@ export default async function HomePage() {
             Создавайте, редактируйте, делитесь QR — быстро и удобно.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          {/* Блок с преимуществами */}
+          <div className="space-y-8 mb-10">
+            <h2 className="text-3xl font-bold text-teal-400 mb-4">Что мы предлагаем?</h2>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="bg-gray-800 p-6 rounded-lg shadow-lg hover:bg-teal-600 transition duration-300 ease-in-out">
+                <h3 className="text-xl font-semibold text-white mb-4">Простота использования</h3>
+                <p className="text-gray-300">Создавайте и редактируйте меню ресторана без лишних усилий. Просто, быстро, удобно.</p>
+              </div>
+              <div className="bg-gray-800 p-6 rounded-lg shadow-lg hover:bg-teal-600 transition duration-300 ease-in-out">
+                <h3 className="text-xl font-semibold text-white mb-4">QR-коды для клиентов</h3>
+                <p className="text-gray-300">Сгенерируйте QR-код для каждого меню и предоставьте его своим клиентам для быстрого доступа.</p>
+              </div>
+              <div className="bg-gray-800 p-6 rounded-lg shadow-lg hover:bg-teal-600 transition duration-300 ease-in-out">
+                <h3 className="text-xl font-semibold text-white mb-4">Мгновенное обновление</h3>
+                <p className="text-gray-300">Все изменения в меню моментально отображаются для ваших клиентов. Поддержите актуальность всегда.</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Блок с кнопками */}
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
             {session ? (
               <Link
                 href="/dashboard"
@@ -47,8 +67,13 @@ export default async function HomePage() {
             </Link>
           </div>
 
-          <div className="mt-12 text-sm text-gray-500">
-            🌗 Автоматическая смена темы уже работает
+          {/* Инструкция или ссылка для начинающих */}
+          <div className="bg-gray-800 p-6 rounded-lg shadow-lg mt-8">
+            <h3 className="text-2xl font-semibold text-white mb-4">Нужна помощь?</h3>
+            <p className="text-gray-300">Начните с регистрации и создайте ваше первое меню. Пошаговое руководство доступно в нашем справочном центре.</p>
+            <Link href="/help" className="text-teal-400 hover:text-teal-300 mt-4 block font-semibold">
+              Узнать больше
+            </Link>
           </div>
         </div>
       </section>

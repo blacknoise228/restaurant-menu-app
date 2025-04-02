@@ -1,11 +1,11 @@
-// /api/restaurant/create/route.ts
-
+// src/app/api/restaurant/[id]/update/route.ts
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/utils/supabase/server'
 
-export async function POST(req: NextRequest) {
-  const body = await req.json()
+export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
   const supabase = await createClient()
+  const { id } = params
+  const body = await req.json()
 
   const {
     data: { session },
@@ -17,14 +17,14 @@ export async function POST(req: NextRequest) {
 
   const { name, logo_url } = body
 
-  const { error } = await supabase.from('restaurants').insert({
-    name,
-    logo_url,
-    user_id: session.user.id,
-  })
+  const { error } = await supabase
+    .from('restaurants')
+    .update({ name, logo_url })
+    .eq('id', id)
+    .eq('user_id', session.user.id)
 
   if (error) {
-    console.error('Ошибка добавления ресторана:', error.message)
+    console.error('Ошибка обновления ресторана:', error.message)
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
 

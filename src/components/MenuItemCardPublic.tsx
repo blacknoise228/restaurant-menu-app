@@ -18,17 +18,20 @@ interface MenuItemCardProps {
 export default function MenuItemCardPublic({ item, onClick }: MenuItemCardProps) {
   return (
     <li
-      className="bg-gray-900 rounded-xl overflow-hidden shadow-lg border border-gray-700 hover:shadow-teal-500/20 transition-all flex flex-col"
+      onClick={onClick}
+      className="relative z-10 bg-gray-900 rounded-xl shadow-lg border border-gray-700 hover:shadow-teal-500/30 transition-transform transform hover:scale-105 flex flex-col cursor-pointer"
       style={{ minHeight: '340px' }}
     >
       {item.image_url && (
-        <div className="relative h-48 w-full shrink-0">
-          <Image
-            src={item.image_url}
-            alt={item.name}
-            fill
-            className="object-cover w-full h-full"
-          />
+        <div className="relative h-48 w-full shrink-0 p-2 pb-0">
+          <div className="relative w-full h-full rounded overflow-hidden">
+            <Image
+              src={item.image_url}
+              alt={item.name}
+              fill
+              className="object-cover w-full h-full rounded-md"
+            />
+          </div>
         </div>
       )}
 
@@ -39,15 +42,7 @@ export default function MenuItemCardPublic({ item, onClick }: MenuItemCardProps)
             {item.description}
           </p>
         </div>
-        <div className="flex justify-between items-end mt-auto">
-          <p className="text-teal-400 font-semibold">💰 {item.price} ₽</p>
-          <button
-            onClick={onClick}
-            className="text-sm text-teal-400 hover:text-white transition"
-          >
-            Подробнее →
-          </button>
-        </div>
+        <p className="text-teal-400 font-semibold text-right mt-auto">💰 {item.price} ₽</p>
       </div>
     </li>
   )

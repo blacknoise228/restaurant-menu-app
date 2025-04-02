@@ -25,7 +25,6 @@ export default async function DashboardLayout({
         <CustomToaster />
         <div className="min-h-screen flex flex-col">{children}</div>
       </SessionProvider>
-
     </>
   )
 }

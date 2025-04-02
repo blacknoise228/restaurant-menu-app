@@ -3,6 +3,8 @@ import { Inter } from 'next/font/google'
 import { createClient } from '@/utils/supabase/server'
 import { SessionProvider } from '@/components/SessionProvider'
 import { CustomToaster } from '@/components/CustomToaster'
+import DonateForm from '@/components/DonateFormModal'
+import ClientFooter from '@/components/ClientFooter'
 
 export const metadata = {
   title: '🍽️ Мой Ресторан',
@@ -28,6 +30,7 @@ export default async function RootLayout({
           <CustomToaster />
           <div className="min-h-screen flex flex-col">{children}</div>
         </SessionProvider>
+        <ClientFooter />
       </body>
     </html>
   )
