@@ -50,7 +50,7 @@ export default function AuthPage() {
       <div className="bg-gray-900 shadow-2xl rounded-2xl p-8 sm:p-10 w-full max-w-md animate-fade-in">
 
         <div className="flex justify-center mb-6">
-          <span className="text-4xl">🍽️</span>
+          <span className="text-4xl">PlatoQR</span>
         </div>
 
         <h2 className="text-3xl font-extrabold text-white mb-6 text-center">Добро пожаловать 👋</h2>

@@ -1,38 +1,70 @@
 'use client'
 
-import { useEffect, useState, useRef } from 'react'
-import { QRCodeCanvas } from 'qrcode.react'
+import { useEffect, useRef, useState } from 'react'
+import Portal from './Portal'
+import QRCodeStyling from 'qr-code-styling'
+import { motion, AnimatePresence } from 'framer-motion'
 
-export default function PublicRestaurantQR({ restaurantId }: { restaurantId: string }) {
+
+export default function PublicRestaurantQR({ restaurantId, icon }: { restaurantId: string, icon: string }) {
   const [isOpen, setIsOpen] = useState(false)
   const [baseUrl, setBaseUrl] = useState<string | null>(null)
-  const canvasRef = useRef<HTMLCanvasElement>(null)
+  const qrContainerRef = useRef<HTMLDivElement>(null)
+  const qrInstanceRef = useRef<QRCodeStyling | null>(null)
 
+  // Получаем базовый URL один раз
   useEffect(() => {
-    const fetchBaseUrl = async () => {
-      const res = await fetch('/api/url')
-      const data = await res.json()
-      setBaseUrl(data.baseUrl)
+    async function fetchBaseUrl() {
+      try {
+        const res = await fetch('/api/url')
+        const data = await res.json()
+        setBaseUrl(data.baseUrl)
+      } catch (error) {
+        console.error('Ошибка получения baseUrl:', error)
+      }
     }
     fetchBaseUrl()
   }, [])
 
+  // Формируем публичную ссылку
   const publicUrl = `${baseUrl}/public/${restaurantId}`
 
+  // При открытии модального окна создаем новый экземпляр QR-кода
+  useEffect(() => {
+    if (isOpen && baseUrl && qrContainerRef.current) {
+      // Создаем экземпляр QRCodeStyling с фиксированным размером 512px
+      qrInstanceRef.current = new QRCodeStyling({
+        width: 512,
+        height: 512,
+        data: publicUrl,
+        image: icon, // Например, "/logo.png"
+        dotsOptions: {
+          color: "#000000",
+          type: "rounded",
+        },
+        imageOptions: {
+          crossOrigin: "anonymous",
+          margin: 20,
+        },
+      })
+      // Очищаем контейнер и вставляем QR-код
+      qrContainerRef.current.innerHTML = ""
+      qrInstanceRef.current.append(qrContainerRef.current)
+
+      // Применяем стили для адаптивного масштабирования: заставляем canvas быть резиновым
+      setTimeout(() => {
+        const canvas = qrContainerRef.current?.querySelector('canvas')
+        if (canvas) {
+          canvas.style.width = '100%'
+          canvas.style.height = 'auto'
+        }
+      }, 50)
+    }
+  }, [isOpen, baseUrl, restaurantId, icon, publicUrl])
+
   const downloadPng = () => {
-    const canvas = canvasRef.current
-    if (!canvas) return
-
-    const pngUrl = canvas
-      .toDataURL('image/png')
-      .replace('image/png', 'image/octet-stream')
-
-    const link = document.createElement('a')
-    link.href = pngUrl
-    link.download = `restaurant-qr.png`
-    document.body.appendChild(link)
-    link.click()
-    document.body.removeChild(link)
+    if (!qrInstanceRef.current) return
+    qrInstanceRef.current.download({ extension: 'png' })
   }
 
   return (
@@ -44,47 +76,59 @@ export default function PublicRestaurantQR({ restaurantId }: { restaurantId: str
         Показать QR
       </button>
 
-      {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          {/* Фоновый оверлей на весь экран с блюром */}
-          <div className="absolute inset-0 bg-black/30 dark:bg-black/50 backdrop-blur-sm" />
-
-          {/* Адаптивное модальное окно */}
-          <div className="relative inline-block p-6 bg-white dark:bg-gray-900 rounded shadow-xl text-center max-h-[90vh] overflow-auto">
-            <h2 className="text-lg font-semibold mb-4">Публичная ссылка</h2>
-            
-            {/* Контейнер для QR-кода, который ограничивает ширину */}
-            <div style={{ width: 'min(512px, 70vw)', margin: '0 auto' }}>
-              <QRCodeCanvas
-                value={publicUrl}
-                size={512} // исходный размер для качества
-                ref={canvasRef}
-                bgColor="#FFFFFF"
-                fgColor="#000000"
-                level="H"
-                includeMargin
-                // переопределяем размеры canvas для адаптивного масштабирования
-                style={{ width: '100%', height: 'auto' }}
-              />
-            </div>
-
-            <div className="mt-4 flex flex-col sm:flex-row gap-4 justify-center">
-              <button
-                onClick={downloadPng}
-                className="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded"
-              >
-                Скачать PNG
-              </button>
-              <button
+      <AnimatePresence>
+        {isOpen && (
+          <Portal>
+            <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+              <div
+                className="absolute inset-0 bg-black/30 dark:bg-black/50 backdrop-blur-sm"
                 onClick={() => setIsOpen(false)}
-                className="bg-gray-400 hover:bg-gray-500 text-white px-4 py-2 rounded"
+              />
+              <motion.div
+                initial={{ opacity: 0, scale: 1, y: 0 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 1, y: 0 }}
+                transition={{ duration: 0.2 }}
+                className="relative inline-block p-6 bg-white dark:bg-gray-900 rounded shadow-xl text-center max-h-[90vh] overflow-auto"
               >
-                Закрыть
-              </button>
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 animate-fade-in">
+                  {/* Фоновый оверлей */}
+                  <div
+                    className="absolute inset-0 bg-black/30 dark:bg-black/50 backdrop-blur-sm"
+                    onClick={() => setIsOpen(false)}
+                  />
+                  {/* Модальное окно */}
+                  <div className="relative inline-block p-6 bg-white dark:bg-gray-900 rounded shadow-xl text-center max-h-[90vh] overflow-auto">
+                    <h2 className="text-lg font-semibold mb-4">Публичная ссылка</h2>
+                    {/* Контейнер для QR-кода с адаптивной шириной */}
+                    <div style={{ width: 'min(512px, 70vw)', margin: '0 auto' }}>
+                      <div
+                        ref={qrContainerRef}
+                        className="mx-auto"
+                        style={{ width: '100%', height: 'auto' }}
+                      />
+                    </div>
+                    <div className="mt-4 flex flex-col sm:flex-row gap-4 justify-center">
+                      <button
+                        onClick={downloadPng}
+                        className="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded"
+                      >
+                        Скачать PNG
+                      </button>
+                      <button
+                        onClick={() => setIsOpen(false)}
+                        className="bg-gray-400 hover:bg-gray-500 text-white px-4 py-2 rounded"
+                      >
+                        Закрыть
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
             </div>
-          </div>
-        </div>
-      )}
+          </Portal>
+        )}
+      </AnimatePresence>
     </>
   )
 }

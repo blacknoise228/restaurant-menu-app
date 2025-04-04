@@ -1,8 +1,4 @@
-'use client'
-
 import Image from 'next/image'
-import { useRef, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
 
 interface MenuItemCardProps {
   item: {
@@ -12,7 +8,7 @@ interface MenuItemCardProps {
     price: number
     image_url?: string
   }
-  onClick?: () => void
+  onClick?: () => void  
 }
 
 export default function MenuItemCardPublic({ item, onClick }: MenuItemCardProps) {
@@ -42,7 +38,7 @@ export default function MenuItemCardPublic({ item, onClick }: MenuItemCardProps)
             {item.description}
           </p>
         </div>
-        <p className="text-teal-400 font-semibold text-right mt-auto">💰 {item.price} ₽</p>
+        <p className="text-teal-400 font-semibold text-right mt-auto">💰 {item.price} тг</p>
       </div>
     </li>
   )
