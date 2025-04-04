@@ -38,7 +38,7 @@ export function Header({ session }: { session: Session | null }) {
           {session ? (
             <button
               onClick={handleLogout}
-              className="bg-red-600 hover:bg-red-500 text-white text-sm sm:text-base font-semibold px-5 py-2.5 rounded-lg shadow-md transition-all duration-200"
+              className="bg-rose-600 hover:bg-rose-500 text-white text-sm sm:text-base font-semibold px-5 py-2.5 rounded-lg shadow-md transition-all duration-200"
             >
               Выйти
             </button>

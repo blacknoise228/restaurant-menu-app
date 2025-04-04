@@ -93,10 +93,12 @@ export default function PublicRestaurantPage({ params }: Props) {
                 </span>
               </button>
 
-              <div className={`${openMenus[menu.id] ? 'block' : 'hidden'} transition-opacity duration-300`}>
-
+              <div
+                className={`overflow-hidden transition-all duration-300 ${openMenus[menu.id] ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'
+                  }`}
+              >
                 {menuItems[menu.id]?.length ? (
-                  <ul className="relative z-0 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 mt-4">
+                  <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 mt-4">
                     {menuItems[menu.id].map((item) => (
                       <MenuItemCardPublic
                         key={item.id}
@@ -112,7 +114,9 @@ export default function PublicRestaurantPage({ params }: Props) {
             </section>
           ))
         ) : (
-          <p className="text-gray-500 italic text-center">У этого ресторана нет доступного меню.</p>
+          <p className="text-gray-500 italic text-center">
+            У этого ресторана нет доступного меню.
+          </p>
         )}
       </div>
 

@@ -45,7 +45,7 @@ export default async function PublicLayout({
               />
             </div>
             <h1 className="text-3xl sm:text-4xl font-extrabold text-teal-400 drop-shadow-sm text-center">
-              🍽 {restaurant?.name || 'Неизвестный ресторан'}
+              {restaurant?.name || 'Неизвестный ресторан'}
             </h1>
           </div>
         </header>
