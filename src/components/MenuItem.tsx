@@ -43,14 +43,14 @@ export default function MenuItem({ menu }: MenuItemProps) {
         <div className="flex flex-wrap gap-2 justify-end">
           <Link
             href={`/dashboard/menu/${menu.id}`}
-            className="text-xs px-3 py-1.5 rounded bg-teal-600 hover:bg-teal-500 text-white transition"
+            className="text-xs px-3 py-1.5 rounded bg-teal-600 hover:bg-teal-400 text-white transition"
           >
             Открыть
           </Link>
 
           <button
             onClick={() => setEditing(true)}
-            className="text-xs px-3 py-1.5 rounded bg-violet-600 hover:bg-yellow-400 text-white transition"
+            className="text-xs px-3 py-1.5 rounded bg-violet-600 hover:bg-violet-400 text-white transition"
           >
             Редактировать
           </button>
@@ -58,7 +58,7 @@ export default function MenuItem({ menu }: MenuItemProps) {
           <button
             onClick={handleDelete}
             disabled={deleting}
-            className="text-xs px-3 py-1.5 rounded bg-rose-600 hover:bg-rose-500 text-white transition disabled:opacity-50"
+            className="text-xs px-3 py-1.5 rounded bg-rose-600 hover:bg-rose-400 text-white transition disabled:opacity-50"
           >
             {deleting ? 'Удаление...' : 'Удалить'}
           </button>

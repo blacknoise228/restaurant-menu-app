@@ -1,4 +1,5 @@
 import { Inter } from 'next/font/google'
+import { redirect } from 'next/navigation'
 import { createClient } from '@/utils/supabase/server'
 import { SessionProvider } from '@/components/SessionProvider'
 import { Header } from '@/components/Header'
@@ -17,6 +18,8 @@ export default async function DashboardLayout({
     data: { session },
   } = await supabase.auth.getSession()
 
+  if (!session) redirect('/auth')
+    
   return (
     <>
       <Header session={session} />

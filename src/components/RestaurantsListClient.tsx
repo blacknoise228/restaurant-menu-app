@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { FaEdit } from 'react-icons/fa'
 import EditRestaurantModal from './EditRestaurantModal'
+import { useRouter } from 'next/navigation'
 
 interface Restaurant {
   id: string
@@ -14,10 +15,27 @@ interface Restaurant {
 export default function RestaurantsListClient({ restaurants }: { restaurants: Restaurant[] }) {
   const [selectedId, setSelectedId] = useState<string | null>(null)
   const [isEditOpen, setIsEditOpen] = useState(false)
+  const [deleting, setDeleting] = useState(false)
+  const router = useRouter()
 
   const handleEdit = (id: string) => {
     setSelectedId(id)
     setIsEditOpen(true)
+  }
+
+  const handleDelete = async (id: string) => {
+    if (confirm('Вы уверены, что хотите удалить меню?')) {
+      setDeleting(true)
+      const res = await fetch(`/api/restaurant/${id}/delete`, {
+        method: 'DELETE',
+      })
+      if (res.ok) {
+        router.refresh()
+      } else {
+        alert('Ошибка удаления меню')
+      }
+      setDeleting(false)
+    }
   }
 
   return (
@@ -36,6 +54,13 @@ export default function RestaurantsListClient({ restaurants }: { restaurants: Re
             >
               <FaEdit size={18} />
             </button>
+
+            <button
+            onClick={() => handleDelete(r.id)}
+            disabled={deleting}
+            className="absolute bottom-3 right-2 text-rose-600 hover:text-rose-500 z-10 p-2 disabled:opacity-50"
+            title="Удалить ресторан"
+            >Удалить</button>
 
             {/* Содержимое карточки */}
             <Link href={`/dashboard/restaurant/${r.id}`} className="block p-4 sm:p-5 pb-6">

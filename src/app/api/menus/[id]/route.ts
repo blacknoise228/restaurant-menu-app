@@ -5,6 +5,16 @@ import { NextResponse } from 'next/server'
 export async function DELETE(request: Request, { params }: { params: { id: string } }) {
   const supabase = await createClient()
   const { id } = await params
+
+  const {
+    data: { session },
+  } = await supabase.auth.getSession()
+
+  if (!session) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
+
   const { error } = await supabase.from('menus').delete().eq('id', id)
   
   if (error) {
@@ -18,6 +28,14 @@ export async function PUT(request: Request, { params }: { params: { id: string }
   const supabase = await createClient()
   const { title } = await request.json()
   const { id } = await params
+
+  const {
+    data: { session },
+  } = await supabase.auth.getSession()
+
+  if (!session) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
 
   const { error } = await supabase
     .from('menus')
