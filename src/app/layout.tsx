@@ -9,9 +9,6 @@ import icon from '@/../public/app-ico.png'
 export const metadata = {
   title: 'PlatoQR',
   description: 'Управление меню ресторана',
-  icons: {
-    icon: icon.blurDataURL,
-  }
 }
 
 const inter = Inter({ subsets: ['latin'] })

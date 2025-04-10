@@ -94,7 +94,7 @@ export default function PublicRestaurantPage({ params }: Props) {
               </button>
 
               <div
-                className={`overflow-hidden transition-all duration-300 ${openMenus[menu.id] ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'
+                className={`transition-all duration-300 ${openMenus[menu.id] ? 'opacity-100' : 'max-h-0 opacity-0'
                   }`}
               >
                 {menuItems[menu.id]?.length ? (
@@ -115,14 +115,14 @@ export default function PublicRestaurantPage({ params }: Props) {
           ))
         ) : (
           <p className="text-gray-500 italic text-center">
-            У этого ресторана нет доступного меню.
+            Загрузка...
           </p>
         )}
       </div>
 
       {selectedItem && (
         <MenuItemModal
-          item={selectedItem} // теперь точно не null
+          item={selectedItem}
           isOpen={true}
           onClose={() => setSelectedItem(null)}
         />

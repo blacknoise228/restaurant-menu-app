@@ -81,7 +81,7 @@ export default function MenuItemModal({ item, isOpen, onClose }: MenuItemModalPr
 
               <div className="mt-auto text-right pt-4">
                 <p className="text-lg font-semibold text-teal-400">
-                  💰 {item.price} ₽
+                  💰 {item.price} тг
                 </p>
               </div>
             </div>

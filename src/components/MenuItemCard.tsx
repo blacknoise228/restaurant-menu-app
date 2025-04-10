@@ -140,7 +140,7 @@ export default function MenuItemCard({ item, onDelete, onUpdate }: Props) {
         <>
           <h3 className="text-lg font-semibold">{item.name}</h3>
           <p className="text-sm text-gray-400">{item.description}</p>
-          <p className="text-teal-400 font-bold mt-1">{item.price} ₽</p>
+          <p className="text-teal-400 font-bold mt-1">{item.price} тг</p>
 
           <div className="flex gap-4 mt-4">
             <button
