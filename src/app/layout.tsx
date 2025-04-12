@@ -20,13 +20,13 @@ export default async function RootLayout({
 }) {
   const supabase = await createClient()
   const {
-    data: { session },
-  } = await supabase.auth.getSession()
+    data: { user },
+  } = await supabase.auth.getUser()
 
   return (
     <html lang="ru" className="scrollbar-hide">
       <body className={`${inter.className} bg-gray-950 text-white overflow-y-scroll`}>
-        <SessionProvider session={session}>
+        <SessionProvider session={null}>
           <CustomToaster />
           <div className="min-h-screen flex flex-col">{children}</div>
         </SessionProvider>

@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { toast } from 'react-hot-toast'
 import { Dialog } from '@headlessui/react'
 import { Plus } from 'lucide-react'
+import ImagePicker from './ImagePicker'
 
 export default function AddMenuItemForm({
   menuId,
@@ -15,20 +16,15 @@ export default function AddMenuItemForm({
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
   const [price, setPrice] = useState('')
-  const [image, setImage] = useState<File | null>(null)
   const [loading, setLoading] = useState(false)
   const [open, setOpen] = useState(false)
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    if (!image) return toast.error('Выберите изображение')
 
-    const formData = new FormData()
+    const formData = new FormData(e.currentTarget)
     formData.append('menuId', menuId)
-    formData.append('name', name)
-    formData.append('description', description)
-    formData.append('price', price)
-    formData.append('image', image)
+
 
     setLoading(true)
     const res = await fetch('/api/menu-item/create', {
@@ -43,7 +39,6 @@ export default function AddMenuItemForm({
       setName('')
       setDescription('')
       setPrice('')
-      setImage(null)
       toast.success('Блюдо добавлено!')
       setOpen(false)
     } else {
@@ -65,10 +60,11 @@ export default function AddMenuItemForm({
         <div className="fixed inset-0 flex items-center justify-center p-4">
           <Dialog.Panel className="w-full max-w-lg bg-gray-900 p-6 rounded-xl shadow-xl border border-gray-700">
             <Dialog.Title className="text-lg font-bold text-white mb-4">➕ Новое блюдо</Dialog.Title>
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} encType="multipart/form-data" className="space-y-4">
               <input
                 type="text"
                 required
+                name="name"
                 placeholder="Название"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
@@ -76,6 +72,7 @@ export default function AddMenuItemForm({
               />
 
               <textarea
+                name="description"
                 placeholder="Описание"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
@@ -86,19 +83,14 @@ export default function AddMenuItemForm({
                 required
                 type="number"
                 step="0.01"
+                name="price"
                 placeholder="Цена"
                 value={price}
                 onChange={(e) => setPrice(e.target.value)}
                 className="w-full p-3 rounded bg-gray-800 text-white border border-gray-700"
               />
 
-              <label className="block text-sm font-medium text-white">Изображение</label>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={(e) => setImage(e.target.files?.[0] || null)}
-                className="w-full text-sm text-gray-400 file:bg-teal-600 file:text-white file:rounded file:px-3 file:py-2 file:border-0 file:cursor-pointer"
-              />
+              <ImagePicker label='Изображение' name='image' />
 
               <div className="flex justify-end gap-3 pt-4">
                 <button

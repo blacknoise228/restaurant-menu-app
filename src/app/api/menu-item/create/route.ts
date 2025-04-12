@@ -18,14 +18,14 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Неверные данные' }, { status: 400 })
     }
 
-    const supabase = await createClient()
-
+    const supabase = await createClient();
     const {
-      data: { session },
-    } = await supabase.auth.getSession()
+      data: { user },
+      error: userErr,
+    } = await supabase.auth.getUser();   // ← безопаснее, чем getSession()
 
-    if (!session) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    if (userErr || !user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     // Проверяем, что меню принадлежит пользователю
@@ -46,7 +46,7 @@ export async function POST(req: NextRequest) {
       .eq('id', menu.restaurant_id)
       .maybeSingle()
 
-    if (restaurant?.user_id !== session.user.id) {
+    if (restaurant?.user_id !== user.id) {
       return NextResponse.json({ error: 'Вы не владелец ресторана' }, { status: 403 })
     }
 
