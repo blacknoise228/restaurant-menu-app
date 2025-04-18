@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from 'react'
 import { useParams } from 'next/navigation'
-import AddMenuItemForm from '@/components/AddMenuItemForm'
-import MenuItemCard from '@/components/MenuItemCard'
+import AddMenuItemForm from '@/components/menu_item/AddMenuItemForm'
+import MenuItemCard from '@/components/menu_card/MenuItemCard'
 
 interface MenuItem {
   id: string

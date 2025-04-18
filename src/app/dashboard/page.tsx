@@ -1,8 +1,8 @@
 // src/app/dashboard/page.tsx
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
-import { AddRestaurantForm } from '@/components/AddRestaurantForm'
-import RestaurantsListClient from '@/components/RestaurantsListClient'
+import { AddRestaurantForm } from '@/components/restoraunt/AddRestaurantForm'
+import RestaurantsListClient from '@/components/restoraunt/RestaurantsListClient'
 
 export default async function DashboardPage() {
   const supabase = await createClient()

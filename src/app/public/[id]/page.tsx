@@ -3,8 +3,8 @@
 import { useEffect, useState } from 'react'
 import { createClient } from '@/utils/supabase/client'
 import { notFound } from 'next/navigation'
-import MenuItemCardPublic from '@/components/MenuItemCardPublic'
-import MenuItemModal from '@/components/MenuItemModal'
+import MenuItemCardPublic from '@/components/menu_card/MenuItemCardPublic'
+import MenuItemModal from '@/components/menu_item/MenuItemModal'
 
 interface MenuItem {
   id: string

@@ -6,7 +6,6 @@ interface EditMenuModalProps {
   menu: {
     id: string
     title: string
-    // Можно добавить другие поля
   }
   onClose: () => void
   onUpdated: () => void
