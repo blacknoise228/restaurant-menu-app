@@ -3,8 +3,8 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import Portal from './Portal'
-import EditMenuModal from './EditMenuModal'
+import Portal from '../Portal'
+import EditMenuModal from '../menu/EditMenuModal'
 
 interface MenuItemProps {
   menu: {

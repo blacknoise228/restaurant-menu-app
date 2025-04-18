@@ -1,9 +1,9 @@
 import { createClient } from '@/utils/supabase/server'
 import { notFound } from 'next/navigation'
-import Link from 'next/link'
-import AddMenuForm from '@/components/AddMenuForm'
+import AddMenuForm from '@/components/menu/AddMenuForm'
 import PublicRestaurantQR from '@/components/QrModal'
-import MenuItem from '@/components/MenuItem'
+import MenuItem from '@/components/menu_item/MenuItem'
+import { getBaseUrl } from '@/utils/getBaseUrl'
 
 interface Props {
   params: { id: string }
@@ -20,6 +20,8 @@ export default async function RestaurantPage({ params }: Props) {
     .single()
 
   if (!restaurant) notFound()
+
+    const baseUrl = await getBaseUrl()
 
   const { data: menus } = await supabase
     .from('menus')
@@ -40,7 +42,7 @@ export default async function RestaurantPage({ params }: Props) {
         <div className="grid sm:grid-cols-1 gap-5">
           <div className="bg-gray-900 p-6 rounded-xl border border-gray-700 shadow-lg">
             <h2 className="text-xl font-semibold text-white mb-4">🔗 QR доступ</h2>
-            <PublicRestaurantQR restaurantId={restaurant.id} icon={restaurant.logo_url} />
+            <PublicRestaurantQR restaurantId={restaurant.id} icon={restaurant.logo_url} baseUrl={baseUrl}/>
           </div>
 
           <div className="bg-gray-900 p-6 rounded-xl border border-gray-700 shadow-lg">

@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { toast } from 'react-hot-toast'
 import { Dialog } from '@headlessui/react'
 import { Plus } from 'lucide-react'
-import ImagePicker from './ImagePicker'
+import ImagePicker from '../ImagePicker'
 
 export default function AddMenuItemForm({
   menuId,

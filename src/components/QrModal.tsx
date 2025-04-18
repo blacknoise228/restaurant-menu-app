@@ -5,33 +5,18 @@ import Portal from './Portal'
 import QRCodeStyling from 'qr-code-styling'
 import { motion, AnimatePresence } from 'framer-motion'
 
-
-export default function PublicRestaurantQR({ restaurantId, icon }: { restaurantId: string, icon: string }) {
+export default function PublicRestaurantQR({ restaurantId, icon, baseUrl}: { restaurantId: string, icon: string, baseUrl: string }) {
   const [isOpen, setIsOpen] = useState(false)
-  const [baseUrl, setBaseUrl] = useState<string | null>(null)
+
   const qrContainerRef = useRef<HTMLDivElement>(null)
   const qrInstanceRef = useRef<QRCodeStyling | null>(null)
-
-  // Получаем базовый URL один раз
-  useEffect(() => {
-    async function fetchBaseUrl() {
-      try {
-        const res = await fetch('/api/url')
-        const data = await res.json()
-        setBaseUrl(data.baseUrl)
-      } catch (error) {
-        console.error('Ошибка получения baseUrl:', error)
-      }
-    }
-    fetchBaseUrl()
-  }, [])
 
   // Формируем публичную ссылку
   const publicUrl = `${baseUrl}/public/${restaurantId}`
 
   // При открытии модального окна создаем новый экземпляр QR-кода
   useEffect(() => {
-    if (isOpen && baseUrl && qrContainerRef.current) {
+    if (isOpen && qrContainerRef.current) {
       // Создаем экземпляр QRCodeStyling с фиксированным размером 512px
       qrInstanceRef.current = new QRCodeStyling({
         width: 512,
